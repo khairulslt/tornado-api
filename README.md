@@ -312,3 +312,7 @@ Useful resources to help you get started:
 Further reading:
 
 - Python generators & the `yield` statement: https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
+
+## Individual Notes (Windows Powershell)
+- Get-Command python (locate Python Path)
+- .\env\Scripts\activate
