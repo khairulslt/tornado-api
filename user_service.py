@@ -164,6 +164,8 @@ class UserIDHandler(BaseHandler):
                 field: row[field] for field in fields
             }
             user.append(user_info)
+            
+        self.write_json({"result": True, "user": user_info})
 
 # /users/ping
 class PingHandler(tornado.web.RequestHandler):
