@@ -165,7 +165,13 @@ class UserIDHandler(BaseHandler):
             }
             user.append(user_info)
 
-        self.write_json({"result": True, "user": user_info})
+        # throw error if id does not exist
+        try:
+            self.write_json({"result": True, "user": user_info})
+        except:
+            logging.exception("id does not exist: {}".format(id))
+            self.write_json({"result": False, "errors": "id does not exist"}, status_code=400)
+            return
 
 # /users/ping
 class PingHandler(tornado.web.RequestHandler):
