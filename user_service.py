@@ -126,6 +126,45 @@ class UsersHandler(BaseHandler):
             errors.append("invalid name")
             return None
 
+# /users/id
+class UserIDHandler(BaseHandler):
+    def get(self, id):
+        # Parsing pagination params
+        page_num = self.get_argument("page_num", 1)
+        page_size = self.get_argument("page_size", 10)
+        try:
+            page_num = int(page_num)
+        except:
+            logging.exception("Error while parsing page_num: {}".format(page_num))
+            self.write_json({"result": False, "errors": "invalid page_num"}, status_code=400)
+            return
+
+        try:
+            page_size = int(page_size)
+        except:
+            logging.exception("Error while parsing page_size: {}".format(page_size))
+            self.write_json({"result": False, "errors": "invalid page_size"}, status_code=400)
+            return
+
+        select_stmt = "SELECT * FROM users WHERE id = {}".format(id)
+
+        # Order by and pagination
+        limit = page_size
+        offset = (page_num - 1) * page_size
+        select_stmt += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
+
+        # Fetching users from db
+        args = (limit, offset)  
+        cursor = self.application.db.cursor()
+        results = cursor.execute(select_stmt, args)
+        user = []
+        for row in results:
+            fields = ["id", "name", "created_at", "updated_at"]
+            user_info = {
+                field: row[field] for field in fields
+            }
+            user.append(user_info)
+
 # /users/ping
 class PingHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
