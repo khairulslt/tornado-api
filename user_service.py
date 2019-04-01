@@ -164,7 +164,7 @@ class UserIDHandler(BaseHandler):
                 field: row[field] for field in fields
             }
             user.append(user_info)
-            
+
         self.write_json({"result": True, "user": user_info})
 
 # /users/ping
@@ -177,6 +177,7 @@ def make_app(options):
     return App([
         (r"/users/ping", PingHandler),
         (r"/users", UsersHandler),
+        (r"/users/([0-9]+)", UserIDHandler),
     ], debug=options.debug)
 
 if __name__ == "__main__":
