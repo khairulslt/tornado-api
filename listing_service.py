@@ -36,7 +36,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def write_json(self, obj, status_code=200):
         self.set_header("Content-Type", "application/json")
         self.set_status(status_code)
-        self.write(json.dumps(obj))
+        self.write(json.dumps((obj), indent=4))
 
 # /listings
 class ListingsHandler(BaseHandler):
