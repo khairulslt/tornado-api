@@ -29,6 +29,12 @@ class App(tornado.web.Application):
             + ");"
         )
         self.db.commit()
+ 
+class BaseHandler(tornado.web.RequestHandler):
+    def write_json(self, obj, status_code=200):
+        self.set_header("Content-Type", "application/json")
+        self.set_status(status_code)
+        self.write(json.dumps((obj), indent=4))
 
 # /users
 class UsersHandler(BaseHandler):
@@ -119,12 +125,6 @@ class UsersHandler(BaseHandler):
             logging.exception("Error while converting name to str: {}".format(name))
             errors.append("invalid name")
             return None
-            
-class BaseHandler(tornado.web.RequestHandler):
-    def write_json(self, obj, status_code=200):
-        self.set_header("Content-Type", "application/json")
-        self.set_status(status_code)
-        self.write(json.dumps((obj), indent=4))
 
 # /users/ping
 class PingHandler(tornado.web.RequestHandler):
