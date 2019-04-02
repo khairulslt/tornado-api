@@ -44,7 +44,23 @@ class BaseHandler(tornado.web.RequestHandler):
 class PublicListings(BaseHandler):
     @tornado.gen.coroutine
     def get(self):
-        http_client = AsyncHTTPClient()
+        # return generators from relevant endpoints
+        listings_generator, users_generator = yield [*multiple_async_http_requests()]
+
+        # Pull data from /listings API
+        listings_API = json.loads(listings_generator.body)
+        listings = listings_API.get("listings")
+
+        # Pull data from /users API
+        users_API = json.loads(users_generator.body)
+        users = users_API.get("users")
+
+        # error out if key doesn't exist
+        if (listings is None) or (users is None):
+            logging.exception("key error during API dict access")
+            self.write_json({"result": False, "errors": "service error"}, status_code=500)
+            return
+
         # Parsing user_id param
         user_id = self.get_argument("user_id", None)
         if user_id is not None:
@@ -54,17 +70,6 @@ class PublicListings(BaseHandler):
                 self.write_json({"result": False, "errors": "invalid user_id"}, status_code=400)
                 return
 
-        # Pull data from /listings API
-        listings_response = yield http_client.fetch("http://localhost:6555/listings")
-        listings_API = json.loads(listings_response.body)
-        listings = listings_API["listings"]
-
-        # Pull data from /users API
-        user_response = yield http_client.fetch("http://localhost:6524/users")
-        users_API = json.loads(user_response.body)
-        users = users_API["users"]
-
-        
         # display listings from /listings with merged users from /users
         '''
         Assumptions:
@@ -143,6 +148,14 @@ class PublicListings(BaseHandler):
             return None
         else:
             return price
+
+def multiple_async_http_requests():
+    http_client = AsyncHTTPClient()
+
+    # GET http_response from /listings & /users
+    listings_response = http_client.fetch("http://localhost:6555/listings")
+    users_response = http_client.fetch("http://localhost:6524/users")
+    return listings_response, users_response
 
 # /public-api/users
 # only POST required
