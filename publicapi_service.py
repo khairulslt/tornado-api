@@ -115,8 +115,9 @@ class PublicListings(BaseHandler):
             self.write_json({"result": False, "errors": errors}, status_code=400)
             return
 
-        http_client = tornado.httpclient.HTTPClient()
-        response = requests.post("http://localhost:6555/listings", data=data)
+        http_client = AsyncHTTPClient()
+        body = urllib.parse.urlencode(data)
+        response = http_client.fetch("http://localhost:6555/listings", method='POST', body=body)
         self.write_json(data)
 
     def _validate_user_id(self, user_id, errors):
@@ -172,8 +173,10 @@ class PublicUsers(BaseHandler):
         if len(errors) > 0:
             self.write_json({"result": False, "errors": errors}, status_code=400)
             return
-        http_client = tornado.httpclient.HTTPClient()
-        response = requests.post("http://localhost:6524/users", data=data)
+            
+        http_client = AsyncHTTPClient()
+        body = urllib.parse.urlencode(data)
+        response = http_client.fetch("http://localhost:6524/users", method='POST', body=body)
         self.write_json(data)
 
     def _validate_name(self, name, errors):
