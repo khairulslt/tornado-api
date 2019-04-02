@@ -75,6 +75,7 @@ class PublicListings(BaseHandler):
         Assumptions:
         For every property listing in /listings endpoint,
         there is a corresponding user_id in /users.
+        If there is a listing with no corresponding user: throw error
         '''
         for i in range(len(listings)):
             try:
