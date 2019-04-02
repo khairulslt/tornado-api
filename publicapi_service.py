@@ -6,6 +6,7 @@ import logging
 import json
 import time
 import requests
+import urllib
 from tornado.httpclient import AsyncHTTPClient
 
 class App(tornado.web.Application):
@@ -173,7 +174,7 @@ class PublicUsers(BaseHandler):
         if len(errors) > 0:
             self.write_json({"result": False, "errors": errors}, status_code=400)
             return
-            
+
         http_client = AsyncHTTPClient()
         body = urllib.parse.urlencode(data)
         response = http_client.fetch("http://localhost:6524/users", method='POST', body=body)
