@@ -180,9 +180,9 @@ class PingHandler(tornado.web.RequestHandler):
 
 def make_app(options):
     return App([
-        (r"/public/ping", PingHandler),
-        (r"/public/listings", PublicListings),
-        (r"/public/users", PublicUsers),
+        (r"/public-api/ping", PingHandler),
+        (r"/public-api/listings", PublicListings),
+        (r"/public-api/users", PublicUsers),
     ], debug=options.debug)
 
 if __name__ == "__main__":
