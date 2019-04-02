@@ -5,6 +5,7 @@ import sqlite3
 import logging
 import json
 import time
+from tornado.httpclient import AsyncHTTPClient
 
 class App(tornado.web.Application):
 
@@ -149,7 +150,7 @@ def make_app(options):
     return App([
         (r"/public-api/ping", PingHandler),
         (r"/public-api/listings", PublicListings),
-        (r"/public-api/users", PublicUsers),
+        #(r"/public-api/users", PublicUsers),
     ], debug=options.debug)
 
 if __name__ == "__main__":
