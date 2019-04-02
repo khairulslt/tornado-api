@@ -5,6 +5,7 @@ import sqlite3
 import logging
 import json
 import time
+import requests
 from tornado.httpclient import AsyncHTTPClient
 
 class App(tornado.web.Application):
@@ -145,7 +146,30 @@ class PublicListings(BaseHandler):
 
 # /public-api/users
 # only POST required
+class PublicUsers(BaseHandler):
+    @tornado.gen.coroutine
+    def post(self):
+        data = tornado.escape.json_decode(self.request.body)
+        # Validating inputs
+        errors = []
+        name_val = self._validate_name(data['name'], errors)
 
+        # End if we have any validation errors
+        if len(errors) > 0:
+            self.write_json({"result": False, "errors": errors}, status_code=400)
+            return
+        http_client = tornado.httpclient.HTTPClient()
+        response = requests.post("http://localhost:6524/users", data=data)
+        self.write_json(data)
+
+    def _validate_name(self, name, errors):
+        try:
+            name = str(name)
+            return name
+        except Exception as e:
+            logging.exception("Error while converting name to str: {}".format(name))
+            errors.append("invalid name")
+            return None
 
 
 # /public-api/ping
@@ -156,9 +180,9 @@ class PingHandler(tornado.web.RequestHandler):
 
 def make_app(options):
     return App([
-        (r"/public-api/ping", PingHandler),
-        (r"/public-api/listings", PublicListings),
-        #(r"/public-api/users", PublicUsers),
+        (r"/public/ping", PingHandler),
+        (r"/public/listings", PublicListings),
+        (r"/public/users", PublicUsers),
     ], debug=options.debug)
 
 if __name__ == "__main__":
