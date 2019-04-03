@@ -314,5 +314,13 @@ Further reading:
 - Python generators & the `yield` statement: https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
 
 ## Individual Notes (Windows Powershell)
-- Get-Command python (locate Python Path)
-- .\env\Scripts\activate
+
+- tweaked commands a little bit for Windows
+
+```bash
+# Locate the path for the Python 3 installation
+Get-Command python 
+
+# Start the virtual environment
+.\env\Scripts\activate
+```
