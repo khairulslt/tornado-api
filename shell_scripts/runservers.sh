@@ -10,5 +10,5 @@ start python user_service.py --port=6524 --debug=true
 start python listing_service.py --port=6555 --debug=true
 
 # serve public_api (http://localhost:6111/public-api/listings)
-start python public_api.py --port=6111 --debug=true
+start python publicapi_service.py --port=6111 --debug=true
 
