@@ -121,11 +121,10 @@ class UsersHandler(BaseHandler):
         self.write_json({"result": True, "user": user})
 
     def _validate_name(self, name, errors):
-        try:
-            name = str(name)
+        if isinstance(name, str) and name.isalpha():
             return name
-        except Exception as e:
-            logging.exception("Error while converting name to str: {}".format(name))
+        else:
+            logging.exception("Name is {} - should be alphabetical string".format(name))
             errors.append("invalid name")
             return None
 
