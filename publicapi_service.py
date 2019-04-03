@@ -63,15 +63,16 @@ class PublicListings(BaseHandler):
         # Adding user_id filter clause if param is specified 
         if user_id is not None:
             user_id = int(user_id)
+
+            # follows behaviour from listing_service.py, if user_id is 0, return empty listings
             if user_id is 0:
                 listings = []
             else:
                 try:
                     listings = listings[-(user_id)]
                 except IndexError:
-                    logging.exception("user ID does not exist")
-                    self.write_json({"result": False, "errors": "invalid user_id"}, status_code=400)
-                    return None
+                # follows behaviour from listing_service.py, if user_id does not exist, return empty listings
+                    listings = []
 
         self.write_json({"result": True, "listings": listings})
 
