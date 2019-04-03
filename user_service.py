@@ -132,6 +132,7 @@ class UsersHandler(BaseHandler):
 
 # /users/id
 class UserIDHandler(BaseHandler):
+    @tornado.gen.coroutine
     def get(self, id):
         # Parsing pagination params
         page_num = self.get_argument("page_num", 1)
