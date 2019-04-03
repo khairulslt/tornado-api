@@ -133,6 +133,7 @@ class UsersHandler(BaseHandler):
 
 
 # /users/id
+# only GET supported
 class UserIDHandler(BaseHandler):
     @tornado.gen.coroutine
     def get(self, id):

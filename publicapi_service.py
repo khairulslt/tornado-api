@@ -136,7 +136,7 @@ def multiple_async_http_requests():
 
 
 # /public-api/users
-# only POST required
+# only POST supported
 class PublicUsers(BaseHandler):
     @tornado.gen.coroutine
     def post(self):
