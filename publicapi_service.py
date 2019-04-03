@@ -8,32 +8,6 @@ import time
 import urllib
 from tornado.httpclient import AsyncHTTPClient
 
-class App(tornado.web.Application):
-
-    def __init__(self, handlers, **kwargs):
-        super().__init__(handlers, **kwargs)
-
-        # Initialising db connection
-        self.db = sqlite3.connect("listings.db")
-        self.db.row_factory = sqlite3.Row
-        self.init_db()
-
-    def init_db(self):
-        cursor = self.db.cursor()
-
-        # Create table
-        cursor.execute(
-            "CREATE TABLE IF NOT EXISTS 'listings' ("
-            + "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-            + "user_id INTEGER NOT NULL,"
-            + "listing_type TEXT NOT NULL,"
-            + "price INTEGER NOT NULL,"
-            + "created_at INTEGER NOT NULL,"
-            + "updated_at INTEGER NOT NULL"
-            + ");"
-        )
-        self.db.commit()
-
 class BaseHandler(tornado.web.RequestHandler):
     def write_json(self, obj, status_code=200):
         self.set_header("Content-Type", "application/json")
@@ -196,7 +170,7 @@ class PingHandler(tornado.web.RequestHandler):
         self.write("pong!")
 
 def make_app(options):
-    return App([
+    return tornado.web.Application([
         (r"/public-api/ping", PingHandler),
         (r"/public-api/listings", PublicListings),
         (r"/public-api/users", PublicUsers),
