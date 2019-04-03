@@ -173,13 +173,11 @@ class UserIDHandler(BaseHandler):
             }
             user.append(user_info)
 
-        # throw error if id does not exist
         try:
             self.write_json({"result": True, "user": user_info})
         except:
-            logging.exception("id does not exist: {}".format(id))
-            self.write_json({"result": False, "errors": "id does not exist"}, status_code=400)
-            return
+            # if id doesn't exist, return result=True with empty data, status_code=200 (based on listing_service implementation)
+            self.write_json({"result": True, "user": []}, status_code=200)
 
 
 # /users/ping
