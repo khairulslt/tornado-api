@@ -155,12 +155,14 @@ class PublicUsers(BaseHandler):
         response = http_client.fetch("http://localhost:6524/users", method='POST', body=body)
         self.write_json(data)
 
+    # assumptions: we only want strings that only have letters in them, "dan99" or 95 are not valid names
+    # also allows for white spaces in case of e.g ("Daniel <space> Radcliffe")
+    # validates if name is alphabetical string
     def _validate_name(self, name, errors):
-        try:
-            name = str(name)
+        if isinstance(name, str) and name.replace(' ','').isalpha():
             return name
-        except Exception as e:
-            logging.exception("Error while converting name to str: {}".format(name))
+        else:
+            logging.exception("Name is {} - should be alphabetical string".format(name))
             errors.append("invalid name")
             return None
 
