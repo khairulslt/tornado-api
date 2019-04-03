@@ -5,7 +5,6 @@ import sqlite3
 import logging
 import json
 import time
-import requests
 import urllib
 from tornado.httpclient import AsyncHTTPClient
 
