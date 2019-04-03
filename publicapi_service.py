@@ -56,7 +56,7 @@ class PublicListings(BaseHandler):
                 user_id_no = listings[i].pop("user_id")
                 listings[i]["user"] = users[-user_id_no]
             except IndexError:
-                logging.exception("user ID does not exist")
+                logging.exception("check databases, every listing needs corresponding name and user_id")
                 self.write_json({"result": False, "errors": "invalid user_id"}, status_code=400)
                 return None
 
