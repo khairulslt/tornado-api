@@ -220,7 +220,7 @@ if __name__ == "__main__":
     # Create web app
     app = make_app(options)
     app.listen(options.port)
-    logging.info("Starting listing service. PORT: {}, DEBUG: {}".format(options.port, options.debug))
+    logging.info("Starting publicapi service. PORT: {}, DEBUG: {}".format(options.port, options.debug))
 
     # Start event loop
     tornado.ioloop.IOLoop.instance().start()
