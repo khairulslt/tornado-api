@@ -1,0 +1,273 @@
+---
+test_name: /listings endpoint - GET requests
+
+stages:
+  - name: GET /listings, expect len(listings) == 4
+    request:
+      url: http://localhost:6555/listings
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings:
+          - id: 4 
+            user_id: 4 
+            listing_type: sale
+            price: 6700
+          - id: 3 
+            user_id: 3
+            listing_type: rent
+            price: 2000 
+          - id: 2 
+            user_id: 2
+            listing_type: sale
+            price: 5500
+          - id: 1 
+            user_id: 1
+            listing_type: rent
+            price: 2500 
+
+  - name: GET listings?user_id=1 endpoint, expect len(listings) == 1
+    request:
+      url: http://localhost:6555/listings?user_id=1
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings:
+          - id: 1 
+            user_id: 1
+            listing_type: rent
+            price: 2500
+
+  - name: GET listings?user_id=0 endpoint, expect len(listings) == 0
+    request:
+      url: http://localhost:6555/listings?user_id=0
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings: []
+
+---
+test_name: /listings endpoint - GET requests - Check error handling
+
+stages:
+  - name: GET http://localhost:6555/listings?user_id=fourteen throws out error if user_id is not valid
+    request:
+      url: http://localhost:6555/listings?user_id=fourteen
+      method: GET
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: invalid user_id
+
+---
+test_name: /listings endpoint - POST requests - Check error handling
+
+stages:
+  - name: POST /listings with invalid data
+    request:
+      url: http://localhost:6555/listings
+      method: POST
+      data:
+        user_id: one
+        listing_type: red
+        price: three
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: 
+          - invalid user_id 
+          - "invalid listing_type. Supported values: 'rent', 'sale'" 
+          - invalid price. Must be an integer 
+
+---
+test_name: /users endpoint - GET requests 
+
+stages:
+  - name: GET /users, expect len(users) == 4
+    request:
+      url: http://localhost:6524/users
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        users:
+          - id: 4 
+            name: Ahmad Zainadi 
+          - id: 3 
+            name: Lorel Ipsum 
+          - id: 2 
+            name: Michael Cheng 
+          - id: 1 
+            name: Suresh Subramaniam
+
+  - name: GET /users/{id} endpoint, expect len(user) == 1
+    request:
+      url: http://localhost:6524/users/2
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        user:
+            id: 2 
+            name: Michael Cheng 
+
+---
+test_name: /users endpoint - GET requests - Check error handling
+
+stages:
+  - name: if user id does not exist
+    request:
+      url: http://localhost:6524/users/661
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        user: []
+
+---
+test_name: /users endpoint - POST requests - Check error handling
+
+stages:
+  - name: throws out error if name contains numbers
+    request:
+      url: http://localhost:6524/users
+      method: POST
+      data:
+        name: Daniel954
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: 
+          - invalid name 
+
+---
+test_name: /public-api/listings endpoint - GET requests
+
+stages:
+  - name: try GET /public-api/listings, expect len(listings) == 4
+    request:
+      url: http://localhost:6111/public-api/listings
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings:
+          - id: 4 
+            listing_type: sale
+            price: 6700 
+            user: 
+              id: 4
+              name: Ahmad Zainadi
+          - id: 3 
+            listing_type: rent
+            price: 2000
+            user: 
+              id: 3 
+              name: Lorel Ipsum
+          - id: 2 
+            listing_type: sale
+            price: 5500
+            user: 
+              id: 2
+              name: Michael Cheng 
+          - id: 1 
+            listing_type: rent
+            price: 2500 
+            user: 
+              id: 1
+              name: Suresh Subramaniam 
+
+  - name: try GET user_id=1, expect len(listings) == 1
+    request:
+      url: http://localhost:6111/public-api/listings?user_id=1
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings:
+            id: 1 
+            listing_type: rent
+            price: 2500 
+            user: 
+              id: 1
+              name: Suresh Subramaniam 
+
+  - name: try GET user_id=0, expect empty listings
+    request:
+      url: http://localhost:6111/public-api/listings?user_id=0
+      method: GET
+    response:
+      status_code: 200
+      body:
+        result: True
+        listings: []
+
+---
+test_name: /public-api/listings endpoint - GET requests - Check error handling
+
+stages:
+  - name: throws out error if user_id does not exist
+    request:
+      url: http://localhost:6111/public-api/listings?user_id=none
+      method: GET
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: invalid user_id
+
+---
+test_name: /public-api/listings endpoint - POST requests - Check error handling
+
+stages:
+  - name: throws out errors if invalid data in POST request
+    request:
+      url: http://localhost:6111/public-api/listings
+      json:
+        user_id: fika
+        listing_type: blue
+        price: none
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: 
+          - invalid user_id 
+          - "invalid listing_type. Supported values: 'rent', 'sale'" 
+          - invalid price. Must be an integer 
+
+---
+test_name: /public-api/users endpoint - POST requests - Check error handling
+
+stages:
+  - name: throws out errors if invalid data in POST request
+    request:
+      url: http://localhost:6111/public-api/users
+      json:
+        name: Gato191
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 400
+      body:
+        result: False
+        errors: 
+          - invalid name
