@@ -6,6 +6,7 @@ import logging
 import json
 import time
 
+
 class App(tornado.web.Application):
 
     def __init__(self, handlers, **kwargs):
@@ -29,12 +30,14 @@ class App(tornado.web.Application):
             + ");"
         )
         self.db.commit()
- 
+
+
 class BaseHandler(tornado.web.RequestHandler):
     def write_json(self, obj, status_code=200):
         self.set_header("Content-Type", "application/json")
         self.set_status(status_code)
         self.write(json.dumps((obj), indent=4))
+
 
 # /users
 class UsersHandler(BaseHandler):
@@ -126,6 +129,7 @@ class UsersHandler(BaseHandler):
             errors.append("invalid name")
             return None
 
+
 # /users/id
 class UserIDHandler(BaseHandler):
     def get(self, id):
@@ -173,11 +177,13 @@ class UserIDHandler(BaseHandler):
             self.write_json({"result": False, "errors": "id does not exist"}, status_code=400)
             return
 
+
 # /users/ping
 class PingHandler(tornado.web.RequestHandler):
     @tornado.gen.coroutine
     def get(self):
         self.write("pong!")
+
 
 def make_app(options):
     return App([
@@ -185,6 +191,7 @@ def make_app(options):
         (r"/users", UsersHandler),
         (r"/users/([0-9]+)", UserIDHandler),
     ], debug=options.debug)
+
 
 if __name__ == "__main__":
     # Define settings/options for the web app

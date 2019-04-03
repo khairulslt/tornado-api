@@ -1,18 +1,18 @@
 import tornado.web
 import tornado.log
 import tornado.options
-import sqlite3
 import logging
 import json
-import time
 import urllib
 from tornado.httpclient import AsyncHTTPClient
+
 
 class BaseHandler(tornado.web.RequestHandler):
     def write_json(self, obj, status_code=200):
         self.set_header("Content-Type", "application/json")
         self.set_status(status_code)
         self.write(json.dumps((obj), indent=4))
+
 
 # /public-api/listings
 class PublicListings(BaseHandler):
@@ -125,6 +125,7 @@ class PublicListings(BaseHandler):
         else:
             return price
 
+
 def multiple_async_http_requests():
     http_client = AsyncHTTPClient()
 
@@ -132,6 +133,7 @@ def multiple_async_http_requests():
     listings_response = http_client.fetch("http://localhost:6555/listings")
     users_response = http_client.fetch("http://localhost:6524/users")
     return listings_response, users_response
+
 
 # /public-api/users
 # only POST required
@@ -169,12 +171,14 @@ class PingHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("pong!")
 
+
 def make_app(options):
     return tornado.web.Application([
         (r"/public-api/ping", PingHandler),
         (r"/public-api/listings", PublicListings),
         (r"/public-api/users", PublicUsers),
     ], debug=options.debug)
+
 
 if __name__ == "__main__":
     # Define settings/options for the web app
