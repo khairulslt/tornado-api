@@ -1,3 +1,32 @@
+# Individual Notes
+
+```bash
+# all commands run on Windows Git Bash, could have compatibility issues on other OS
+# to use shell_scripts for faster initialization
+cd shell_scripts
+
+# start running all servers 
+sh runservers.sh
+
+# add data with POST
+sh add_data.sh
+
+# remove databases (!IMPORTANT, ONLY RUN WHEN SURE... CANNOT UNDO => SEE NOTE INSIDE delete_data.sh ON USING TRASH INSTEAD)
+# ensure all database connections are closed before running command
+sh delete_data.sh
+```
+## On Windows
+
+- tweaked commands a little bit for Windows
+
+```bash
+# Locate the path for the Python 3 installation
+Get-Command python 
+
+# Start the virtual environment
+.\env\Scripts\activate
+```
+
 # Backend Tech Challenge
 An exercise to assess your skills with Python, Tornado (Web Framework), and writing non-blocking/asynchronous code.
 
@@ -312,15 +341,3 @@ Useful resources to help you get started:
 Further reading:
 
 - Python generators & the `yield` statement: https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
-
-## Individual Notes (Windows Powershell)
-
-- tweaked commands a little bit for Windows
-
-```bash
-# Locate the path for the Python 3 installation
-Get-Command python 
-
-# Start the virtual environment
-.\env\Scripts\activate
-```
