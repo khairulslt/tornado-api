@@ -1,3 +1,4 @@
+# start of /listings tests
 ---
 test_name: /listings endpoint - GET requests
 
@@ -87,6 +88,7 @@ stages:
           - "invalid listing_type. Supported values: 'rent', 'sale'" 
           - invalid price. Must be an integer 
 
+# start of /users tests
 ---
 test_name: /users endpoint - GET requests 
 
@@ -152,6 +154,7 @@ stages:
         errors: 
           - invalid name 
 
+# start of public-api/listings tests
 ---
 test_name: /public-api/listings endpoint - GET requests
 
@@ -253,6 +256,7 @@ stages:
           - "invalid listing_type. Supported values: 'rent', 'sale'" 
           - invalid price. Must be an integer 
 
+# start of /public-api/users tests
 ---
 test_name: /public-api/users endpoint - POST requests - Check error handling
 

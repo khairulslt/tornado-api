@@ -15,7 +15,28 @@ sh add_data.sh
 # ensure all database connections are closed before running command
 sh delete_data.sh
 ```
-## On Windows
+
+- For Tests
+
+```bash
+# pip install tavern
+# first, ensure no db connections are open, then run sh delete_data.sh
+# start running all servers 
+sh runservers.sh
+
+# add data with POST
+sh add_data.sh
+
+# run tavern tests
+py.test test_apis.tavern.yaml --vv
+```
+## On Attempting Tornado Testing
+
+- Using tavern is probably not the best way to do it
+
+- Using built in [tornado testing](https://www.tornadoweb.org/en/stable/testing.html) with something like nose is probably the best way to do it
+
+## On Using Windows
 
 - tweaked commands a little bit for Windows
 
