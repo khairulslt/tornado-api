@@ -16,7 +16,7 @@ sh add_data.sh
 sh delete_data.sh
 ```
 
-- For Tests
+## Running Tests
 
 ```bash
 # pip install tavern
