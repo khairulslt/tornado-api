@@ -132,7 +132,6 @@ def multiple_async_http_requests():
 
     # GET http_response from /listings & /users
     listings_response = http_client.fetch("http://localhost:6555/listings")
-    print(listings_response.body)
     users_response = http_client.fetch("http://localhost:6524/users")
     return listings_response, users_response
 
