@@ -19,7 +19,7 @@ class PublicListings(BaseHandler):
     @tornado.gen.coroutine
     def get(self):
         # return generators from relevant endpoints
-        listings_generator, users_generator = yield [*multiple_async_http_requests(page_num, page_size)]
+        listings_generator, users_generator = yield [*multiple_async_http_requests()]
 
         # Pull data from /listings API
         listings_API = json.loads(listings_generator.body)
@@ -131,8 +131,8 @@ def multiple_async_http_requests(page_size, page_num):
     http_client = AsyncHTTPClient()
 
     # GET http_response from /listings & /users
-    listings_response = http_client.fetch("http://localhost:6555/listings?page_size={}".format(page_size))
-    users_response = http_client.fetch("http://localhost:6524/users?page_size={}".format(page_size))
+    listings_response = http_client.fetch("http://localhost:6555/listings")
+    users_response = http_client.fetch("http://localhost:6524/users")
     return listings_response, users_response
 
 
