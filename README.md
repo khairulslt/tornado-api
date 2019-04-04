@@ -27,6 +27,7 @@ sh runservers.sh
 # add data with POST
 sh add_data.sh
 
+# cd tests
 # run tavern tests
 py.test test_apis.tavern.yaml -vv
 ```
