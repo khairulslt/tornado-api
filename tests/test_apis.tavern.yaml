@@ -161,7 +161,7 @@ test_name: /public-api/listings endpoint - GET requests
 stages:
   - name: try GET /public-api/listings, expect len(listings) == 4
     request:
-      url: http://localhost:6111/public-api/listings
+      url: http://localhost:6533/public-api/listings
       method: GET
     response:
       status_code: 200
@@ -195,7 +195,7 @@ stages:
 
   - name: try GET user_id=1, expect len(listings) == 1
     request:
-      url: http://localhost:6111/public-api/listings?user_id=1
+      url: http://localhost:6533/public-api/listings?user_id=1
       method: GET
     response:
       status_code: 200
@@ -211,7 +211,7 @@ stages:
 
   - name: try GET user_id=0, expect empty listings
     request:
-      url: http://localhost:6111/public-api/listings?user_id=0
+      url: http://localhost:6533/public-api/listings?user_id=0
       method: GET
     response:
       status_code: 200
@@ -225,7 +225,7 @@ test_name: /public-api/listings endpoint - GET requests - Check error handling
 stages:
   - name: throws out error if user_id does not exist
     request:
-      url: http://localhost:6111/public-api/listings?user_id=none
+      url: http://localhost:6533/public-api/listings?user_id=none
       method: GET
     response:
       status_code: 400
@@ -239,7 +239,7 @@ test_name: /public-api/listings endpoint - POST requests - Check error handling
 stages:
   - name: throws out errors if invalid data in POST request
     request:
-      url: http://localhost:6111/public-api/listings
+      url: http://localhost:6533/public-api/listings
       json:
         user_id: fika
         listing_type: blue
@@ -263,7 +263,7 @@ test_name: /public-api/users endpoint - POST requests - Check error handling
 stages:
   - name: throws out errors if invalid data in POST request
     request:
-      url: http://localhost:6111/public-api/users
+      url: http://localhost:6533/public-api/users
       json:
         name: Gato191
       method: POST

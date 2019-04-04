@@ -26,18 +26,18 @@ curl http://localhost:6524/users -XPOST \
 # POST to /public-api/listings
 curl -d '{"user_id": "3", "listing_type": "rent", "price": 2000}' \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:6111/public-api/listings &&
+    -X POST http://localhost:6533/public-api/listings &&
 
 curl -d '{"user_id": "4", "listing_type": "sale", "price": 6700}' \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:6111/public-api/listings &&
+    -X POST http://localhost:6533/public-api/listings &&
 
 
 # POST to /public-api/users
 curl -d '{"name": "Lorel Ipsum"}' \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:6111/public-api/users &&
+    -X POST http://localhost:6533/public-api/users &&
 
 curl -d '{"name": "Ahmad Zainadi"}' \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:6111/public-api/users
+    -X POST http://localhost:6533/public-api/users
