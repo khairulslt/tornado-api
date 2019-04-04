@@ -127,11 +127,12 @@ class PublicListings(BaseHandler):
             return price
 
 
-def multiple_async_http_requests(page_size, page_num):
+def multiple_async_http_requests():
     http_client = AsyncHTTPClient()
 
     # GET http_response from /listings & /users
-    listings_response = http_client.fetch("http://localhost:6555/listings")
+    listings_response = http_client.fetch("http://localhost:6555/listings?user_id=1")
+    print(listings_response.body)
     users_response = http_client.fetch("http://localhost:6524/users")
     return listings_response, users_response
 
