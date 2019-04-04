@@ -31,6 +31,7 @@ sh add_data.sh
 # run tavern tests
 py.test test_apis.tavern.yaml -vv
 ```
+
 ## On Attempting Tornado Testing
 
 - My first attempt at unit testing a REST api (I first tried using the standard tornado unittesting docs but I ran into a lot of compatability issues on Windows)
@@ -68,6 +69,7 @@ Get-Command python
 }
 ```
 
+---
 
 # Backend Tech Challenge
 An exercise to assess your skills with Python, Tornado (Web Framework), and writing non-blocking/asynchronous code.
