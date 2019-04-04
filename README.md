@@ -39,7 +39,7 @@ py.test test_apis.tavern.yaml -vv
 
 - to compensate for this, I figured using shell scripts to mimick setup/teardown methods might work... probably not a scalable idea, a bad one at that
 
-- Using tavern is probably not the best way to do it since there is no support for unit testing asynchronous code.
+- Using tavern is probably not the best way to do it since there is no support for unit testing asynchronous code
 
 - Using built in [tornado testing](https://www.tornadoweb.org/en/stable/testing.html) with something like nose is probably the best way to do it
 
@@ -54,6 +54,10 @@ Get-Command python
 # Start the virtual environment
 .\env\Scripts\activate
 ```
+## Other Thoughts
+
+- I spent some time researching on [what response codes to return](https://stackoverflow.com/questions/11746894/what-is-the-proper-rest-response-code-for-a-valid-request-but-an-empty-data). Specifically for this challenge, I chose to return 200 with results: True & empty data instead of 400 with results: False & an error. Personally, I think it makes a lot more sense from a product UX perspective. e.g If I'm searching for something like "Unicorn Pyjamas Pink Stripes" on the Adidas website and it doesn't exist... I would rather be directed to a product screen where nothing's there VS a 404 page which might make me confused as an online shopper.
+
 
 # Backend Tech Challenge
 An exercise to assess your skills with Python, Tornado (Web Framework), and writing non-blocking/asynchronous code.
