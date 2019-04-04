@@ -34,7 +34,7 @@ py.test test_apis.tavern.yaml -vv
 
 ## On Attempting Tornado Testing
 
-- My first attempt at unit testing a REST api (I first tried using the standard tornado unittesting docs but I ran into a lot of compatability issues on Windows)
+- My first attempt at unit testing a REST api (I first tried using the standard tornado unittesting docs but I ran into a lot of compatibility issues on Windows)
 
 - Tavern currently does not [support setUp/tearDown methods](https://github.com/taverntesting/tavern/pull/115)
 
