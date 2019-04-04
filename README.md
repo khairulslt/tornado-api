@@ -28,7 +28,7 @@ sh runservers.sh
 sh add_data.sh
 
 # run tavern tests
-py.test test_apis.tavern.yaml --vv
+py.test test_apis.tavern.yaml -vv
 ```
 ## On Attempting Tornado Testing
 
