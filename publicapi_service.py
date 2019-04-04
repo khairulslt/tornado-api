@@ -18,6 +18,22 @@ class BaseHandler(tornado.web.RequestHandler):
 class PublicListings(BaseHandler):
     @tornado.gen.coroutine
     def get(self):
+        page_num = self.get_argument("page_num", 1)
+        page_size = self.get_argument("page_size", 10)
+        try:
+            page_num = int(page_num)
+        except:
+            logging.exception("Error while parsing page_num: {}".format(page_num))
+            self.write_json({"result": False, "errors": "invalid page_num"}, status_code=400)
+            return
+
+        try:
+            page_size = int(page_size)
+        except:
+            logging.exception("Error while parsing page_size: {}".format(page_size))
+            self.write_json({"result": False, "errors": "invalid page_size"}, status_code=400)
+            return
+            
         # return generators from relevant endpoints
         listings_generator, users_generator = yield [*multiple_async_http_requests()]
 
@@ -129,11 +145,17 @@ class PublicListings(BaseHandler):
 
 def multiple_async_http_requests():
     http_client = AsyncHTTPClient()
-
+    if page_num and page_size:
+        listings_response = http_client.fetch("http://localhost:6555/listings?page_num={}&page_size={}".format(page_num, page_size))
+        user_response = http_client.fetch("http://localhost:6524/users?page_num={}&page_size={}".format(page_num, page_size))
+    elif page_num:
+        listings_response = http_client.fetch("http://localhost:6555/listings?page_num={}".format(page_num))
+        user_response = http_client.fetch("http://localhost:6524/users?page_num={}".format(page_num))
+    elif page_size:
+        listings_response = http_client.fetch("http://localhost:6555/listings?page_size={}".format(page_size))
+        user_response = http_client.fetch("http://localhost:6524/users?page_size={}".format(page_size))
     # GET http_response from /listings & /users
-    listings_response = http_client.fetch("http://localhost:6555/listings")
-    users_response = http_client.fetch("http://localhost:6524/users")
-    return listings_response, users_response
+    return listings_response, user_response
 
 
 # /public-api/users
