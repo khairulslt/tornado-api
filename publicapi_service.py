@@ -35,7 +35,7 @@ class PublicListings(BaseHandler):
             return
 
         # return generators from relevant endpoints
-        listings_generator, users_generator = yield [*multiple_async_http_requests()]
+        listings_generator, users_generator = yield [*multiple_async_http_requests(page_num, page_size)]
 
         # Pull data from /listings API
         listings_API = json.loads(listings_generator.body)
@@ -143,7 +143,7 @@ class PublicListings(BaseHandler):
             return price
 
 
-def multiple_async_http_requests():
+def multiple_async_http_requests(page_num, page_size):
     http_client = AsyncHTTPClient()
     if page_num and page_size:
         listings_response = http_client.fetch("http://localhost:6555/listings?page_num={}&page_size={}".format(page_num, page_size))
