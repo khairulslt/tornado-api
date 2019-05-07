@@ -55,31 +55,11 @@ Get-Command python
 # Start the virtual environment
 .\env\Scripts\activate
 ```
-## Other Thoughts
-
-- I spent some time researching on [what response codes to return](https://stackoverflow.com/questions/11746894/what-is-the-proper-rest-response-code-for-a-valid-request-but-an-empty-data) when faced with empty data. Specifically for this challenge, I chose to return 200 with results: True & empty data instead of 400 with results: False & an error. Personally, I think it makes a lot more sense from a product UX perspective. e.g If I'm searching for something like "Unicorn Pyjamas Pink Stripes" on the Adidas website and it doesn't exist... I would rather be directed to a product screen where nothing's there VS a 404 page which might make me confused as an online shopper.
-
-- I decided to handle response codes in the manner above after I looked at the implementation of listing_service and its response in requests below:
-
-```bash
-# GET /listings?user_id=0 or GET /listings?user_id=9191910101
-{
-    "results": True
-    "listings": []
-}
-```
 
 ---
 
-# Backend Tech Challenge
-An exercise to assess your skills with Python, Tornado (Web Framework), and writing non-blocking/asynchronous code.
-
-## Requirements
-The listing service has been built already. You need to build the remaining two components: the user service and the public API layer. The implementation of the listing service can serve as a good starting point to learn more about how to structure a web application using the Tornado web framework.
-
-The first priority would be to get a working system up and running! A great submission would demonstrate a grasp of the principles of microservice architecture.
-
-You are required to use tornado's built in framework for HTTP request.
+# A Tornado Server
+Writing non-blocking/asynchronous code with Tornado
 
 ## Setup
 We will be using Python 3 for this exercise.
@@ -134,13 +114,3 @@ curl localhost:8888/listings -XPOST \
     -d listing_type=rent \
     -d price=4500
 ```
-
-## Resources
-Useful resources to help you get started:
-
-- Tornado web application framework: http://www.tornadoweb.org/en/stable/
-- Writing async code in Tornado: http://www.tornadoweb.org/en/stable/coroutine.html
-
-Further reading:
-
-- Python generators & the `yield` statement: https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
